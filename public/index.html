@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de Usuário</title>
+</head>
+<body>
+  <h2>Insira seus dados</h2>
+  <form id="userForm">
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" required><br><br>
+    
+    <label for="rg">RG:</label>
+    <input type="text" id="rg" name="rg" required><br><br>
+    
+    <label for="city">Cidade:</label>
+    <input type="text" id="city" name="city" required><br><br>
+    
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    document.getElementById("userForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const data = {
+        name: document.getElementById("name").value,
+        rg: document.getElementById("rg").value,
+        city: document.getElementById("city").value
+      };
+
+      try {
+        const response = await fetch("http://localhost:3000/insert", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        alert(result.message);
+      } catch (error) {
+        console.error("Erro ao enviar dados:", error);
+        alert("Falha ao enviar os dados");
+      }
+    });
+  </script>
+</body>
+</html>
